@@ -1,0 +1,8 @@
+File_Name	Overlap_Count
+bedfiles_output/bedtools_default.bed	165573
+bedfiles_output/bedtools_r_f05.bed	102320
+bedfiles_output/bedtools_same_stranded.bed	0
+bedfiles_output/full_matching_lines.bed	71605
+bedfiles_output/matching_chromosome.bed	159610
+bedfiles_output/matching_chromosome_start.bed	83881
+bedfiles_output/matching_chromosome_start_end.bed	71605
