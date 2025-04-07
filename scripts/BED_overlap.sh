@@ -17,8 +17,9 @@ echo "Loading bedtools module complete"
 
 
 # Make variables for the BED files
-dIndels="/gpfs/home/dyj09myu/bioinformatics/BIO-DSB/Session2/Part1/DPure_indels_mask.bed"
-lIndels="/gpfs/home/dyj09myu/bioinformatics/BIO-DSB/Session2/Part1/LPure_indels_mask.bed"
+# Note that if these files are removed from the HPC, you will need to replace these paths with new paths to the .bed files.
+dIndels="/gpfs/data/BIO-DSB/Session2/Part1/DPure_indels_mask.bed"
+lIndels="/gpfs/data/BIO-DSB/Session2/Part1/LPure_indels_mask.bed"
 echo "BED files loaded"
 
 # Define the output directory
@@ -72,6 +73,7 @@ bedtools intersect -a $dIndels -b $lIndels -f 0.5 -r > $bedfiles_output/bedtools
 
 # The -s flag specifies that the strand should be taken into account when calculating the overlap.
 bedtools intersect -a $dIndels -b $lIndels -f 0.5 -r -s > $bedfiles_output/bedtools_same_stranded.bed
+# Note that as our bedfiles do not include a strand orientation column, this file is expected to be empty.
 echo "Overlaps found using bedtools in three different ways"
 
 #  Document your process and assess your results:

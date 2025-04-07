@@ -1,9 +1,0 @@
-Loading bedtools module
-Loading bedtools module complete
-BED files loaded
-Output directory created
-Finding overlaps using basic commandline tools
-Finding overlaps using bedtools
-Overlaps found using bedtools in three different ways
-Counting the number of overlaps detected for all methods
-All processes completed

@@ -7,8 +7,8 @@
 #SBATCH -c 1                          # number of cores
 #SBATCH --mem 2G                      # memory pool for all cores
 #SBATCH -t 0-00:10                    # wall time (D-HH:MM)
-#SBATCH -o ExampleJob.STDOUT            # STDOUT
-#SBATCH -e ExampleJob.STDERR            # STDERR
+#SBATCH -o ExampleJob.STDOUT          # STDOUT
+#SBATCH -e ExampleJob.STDERR          # STDERR
 #SBATCH -J ExampleJobRenamed          # job name
 # #SBATCH --mail-type=END,FAIL          # notifications for job done & fail
 # #SBATCH --mail-user=myemail@uea.ac.uk # send-to address
