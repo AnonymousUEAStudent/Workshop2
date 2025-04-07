@@ -14,7 +14,4 @@
 # #SBATCH --mail-user=myemail@uea.ac.uk # send-to address
 
 echo 'This is an example of the standard output of a batch job'
-
-sleep 1m
-
 echo 'This is an example of an output file from a batch job' > example_output.txt

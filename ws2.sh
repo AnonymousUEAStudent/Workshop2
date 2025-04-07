@@ -4,11 +4,21 @@
 
 # The following is a break down of the material covered in workshop 2. 
 # Commentary includes descriptions of the commands used, their inteded purpose, as well as the output of the commands.
-# The workshop is split into two parts, the first part covers file transfer and bash scripting, and does not require any commandline operations.
+# The workshop is split into two parts, the first part covers file transfer and bash scripting.
 # The second part covers the use of SLURM to submit jobs to the HPC, and requires the use of commandline operations.
 
-# I have included commanline operations to repeat the steps from both parts of the workshop so they can be reproduced by running this script file.
-# To do so, remove the .txt file extension from this file and run the script using bash ws2.sh
+# This script contains commanline operations to repeat the steps from both parts of the workshop so they can be reproduced by running this script file.
+# To do so, remove the .txt file extension from this file copy it to a new folder of your choice on the UEA HPC and run the script using bash ws2.sh.
+# A github repository of this exercise is included here https://github.com/AnonymousUEAStudent/Workshop2 which includes a full README.md file and instructions on how to run the script.
+
+# Setup step to remove previous output files
+rm -rf scripts/ # Remove the 'scripts' directory if it exists
+rm -rf bedfiles_output/ # Remove the 'bedfiles_output' directory if it exists
+rm -rf example_output.txt # Remove the 'example_output.txt' file if it exists
+rm -rf simple.txt # Remove the 'example_output.txt' file if it exists
+rm -rf *.STDERR # Remove any .STDERR files if they exist
+rm -rf *.STDOUT # Remove any .STDOUT files if they exist
+
 
 # Part 1
 
@@ -25,11 +35,12 @@ mkdir scripts # Create a new directory called 'scripts' in the current directory
 
 # Exercise 3 
 # •    Write a “Hello World” bash script in VSCode on your local machine
-echo "echo 'Hello world!'" > bash.sh # Create a bash script that prints "Hello world!"
+echo "#!/bin/bash
+echo 'Hello world!'" > hello_world.sh # Create a bash script that prints "Hello world!"
 # •    Copy it to the ‘scripts’ directory on the HPC using file transfer software
 mv bash.sh scripts/ # Move the bash script to the 'scripts' directory
 # •    Run the script
-bash scripts/bash.sh # Run the bash script
+bash scripts/bash.sh # Run the bash script, which will print Hello world! to the terminal.
 
 # Exercise 4
 # •    Write a bash script that contains 3 of the lines of code from the Tuesday Linux session
@@ -59,18 +70,15 @@ echo "#!/bin/bash -e
 #SBATCH -c 1                          # number of cores
 #SBATCH --mem 2G                      # memory pool for all cores
 #SBATCH -t 0-00:10                    # wall time (D-HH:MM)
-#SBATCH -o ExampleJob.STDOUT            # STDOUT
-#SBATCH -e ExampleJob.STDERR            # STDERR
+#SBATCH -o ExampleJob.STDOUT          # STDOUT
+#SBATCH -e ExampleJob.STDERR          # STDERR
 #SBATCH -J ExampleJobRenamed          # job name
 # #SBATCH --mail-type=END,FAIL          # notifications for job done & fail
 # #SBATCH --mail-user=myemail@uea.ac.uk # send-to address
 
 echo 'This is an example of the standard output of a batch job'
-
-sleep 1m
-
 echo 'This is an example of an output file from a batch job' > example_output.txt" > batch_example.sh # Create a new bash script editing the job name
-# A real email should be used if you wish to run the job and get notifications
+# A real email should be used if you wish to run the job and get notifications, otherwise leave the email line commented out.
 
 # 5.    Copy the script to the ‘scripts’ directory on the HPC (that you made earlier)
 mv batch_example.sh scripts/
@@ -108,8 +116,9 @@ echo "Loading bedtools module complete"
 
 
 # Make variables for the BED files
-dIndels="/gpfs/home/dyj09myu/bioinformatics/BIO-DSB/Session2/Part1/DPure_indels_mask.bed"
-lIndels="/gpfs/home/dyj09myu/bioinformatics/BIO-DSB/Session2/Part1/LPure_indels_mask.bed"
+# Note that if these files are removed from the HPC, you will need to replace these paths with new paths to the .bed files.
+dIndels="/gpfs/data/BIO-DSB/Session2/Part1/DPure_indels_mask.bed"
+lIndels="/gpfs/data/BIO-DSB/Session2/Part1/LPure_indels_mask.bed"
 echo "BED files loaded"
 
 # Define the output directory
@@ -203,5 +212,58 @@ echo "All processes completed"
 # 2.    Test it by running it
 sbatch scripts/BED_overlap.sh # Submit the script to the HPC
 
-# Running this script with bash ws2.sh will create a new directory called 'output' in the current directory.
-# This directory will contain the output files from the BED overlap task.
+
+# That concludes the workshop 2 bash script.
+# If you have not visited the repo as stated at the start of the file, the README.md is included below giving instructions on it's use:
+# Available here: https://github.com/AnonymousUEAStudent/Workshop2
+
+# # Data Science & Bioinformatics Workshop 2
+# ## Bioinformatics Software and File Transfer, Scripting, bash scripts, using SLURM
+# This repo includes all the required files to fully answer the questions set in this workshop, and ensuring reproducibility. It does require access to the UEA HPC to run and process the script ws2.sh as intended.
+# Each file is listed here with its intended purpose:
+
+# ## Files:
+# ### Workshop2 Directory:
+# - ws2.sh: A bash script that when run, will complete all the execises in workshop 2 and generate all other files described below. Instructions for how to do so are listedd later in the "Reproducing the exercise" section.
+# - ws2.sh.txt: Duplicate of the above with .txt file extention, allowing for submission to blackboard. 
+# - simple.txt: A generated text file containing "Simple text file"
+# - example_output.txt: A text file generated by running the ExampleJob batch_example.sh on the UEA HPC.
+# - *.bed: The two bed files D and L from D. melanogaster. required to perform the exercise. Included here if they are removed from the HPC in future, and the ws2.sh needs to updated to use new paths for these files.
+# ### scripts Directory:
+# - hello_world.sh: A simple bash script that outputs "Hello world!" when run.
+# - threeCommands.sh: Simple bash script that lists the current directory contents and creates then deletes a txt file.
+# - batch_example.sh: A batch job intended to be run on the UEA HPC. Will generate the example_output.txt file when run.
+# - BED_overlap.sh: A more complicated batch job intended to be run on the UEA HPC. It will use various methods to determine overlaps in two .bed files located on the HPC (If these files are removed on the HPC new paths will need to be replaced to point to a new location of the  bedfiles in ws2.sh).
+# ### bedfiles_output Directory:
+# - bedtools_default.bed: Default output running bedtools intersect on the two .bed files
+# - bedtools_r_f05.bed: Output running bedtools intersect with -r and -f 0.5 flags on the two .bed files
+# - bedtools_same_stranded.bed: Output running bedtools intersect with -r -f 0.5 and -s flags on the two .bed files
+# - full_matching_lines.bed: Output from using grep -Ff to find match lines between the two .bed files
+# - matching_*.bed: The files generated with only the listed matching columns using awk.
+# - overlap_counts: A text file containing the file names and the number of lines generate in each (The number of overlaps)
+
+# ## Reproducing the exercise:
+# Login to the UEA HPC and navigate to a location you wish to clone the repository.
+# Clone the repo in a location on the UEA HPC and use cd to navigate into the repo folder created:
+# ```
+# git clone https://github.com/AnonymousUEAStudent/Workshop2.git
+# cd Workshop2
+# ```
+# Alternatively, if just the ws2.sh.txt file is available. Remove the .txt extension and copy the file to a folder of your choice on the HPC.
+
+# Run the bash script file using: 
+# ```
+# bash ws2.sh
+# ```
+# The script includes a few setup lines to ensure the script is reproducible when running multiple times.
+# This includes the deletion of files and folders generated during the script.
+# Running the script will produce the output described in the ws2.sh(.txt) file(s).
+
+# A summary of what the script achieves is listed below:
+# First the Workshop2 directory is reset to remove all previously generated output.
+# Creates a new subdirectory 'scripts' within the current directory.
+# Then generates two bash scripts hello_world.sh and threeCommands.sh.
+# It runs the three commands script.
+# It also generates two batch scripts for use in the HPC.
+# All scripts are saved in the scripts directory.
+# It then runs the two batch scripts on the HPC and generates the output files described in the files section.
